@@ -1,0 +1,4 @@
+#Sun Dec 12 23:02:16 IST 2021
+base.0=E\:\\projects\\foodApp\\FoodAppMobile\\android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

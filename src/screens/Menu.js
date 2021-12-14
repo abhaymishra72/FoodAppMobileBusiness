@@ -8,7 +8,14 @@ import {
   TouchableOpacity,
   
 } from "react-native";
-
+import {
+    font,
+    colors,
+    images,
+    customStyles,
+    ionicons,
+    icons,
+  } from "../constants/styles";
 import { Picker } from "@react-native-picker/picker";
 
 const AddNewMenu = ({ navigation }) => {
@@ -24,6 +31,7 @@ const AddNewMenu = ({ navigation }) => {
         <Text style={styles.mainText}>Add/ Edit Food Screen</Text>
       </View>
       <View style={styles.border}>
+          
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
@@ -33,18 +41,20 @@ const AddNewMenu = ({ navigation }) => {
             placeholderTextColor="#9b9b9b"
           />
         </View>
-        <View style={styles.inputView}>
+        <View style={styles.pickerBorder}>
           <Picker
+          
             selectedValue={Enable}
-            style={styles.TextInput}
+            style={styles.pickerBorder}
             mode={"dialog"}
             onValueChange={(itemValue) => setEnable(itemValue)}
           >
-            <Picker.Item label="food category" value="foodcategory" />
+            <Picker.Item  label="food category" value="foodcategory" />
             <Picker.Item label="veg" value="veg" />
             <Picker.Item label="nonveg " value="nonveg" />
           </Picker>
         </View>
+        
         <View style={styles.inputView}>
           <TextInput
             style={styles.TextInput}
@@ -125,11 +135,24 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     justifyContent: "center",
   },
+  pickerBorder: {
+    borderWidth: 1,
+    borderColor: 'black',
+    alignSelf: "center",
+    height: 40,
+    padding: 0,
+   width:'80%',
+   
+    
+    borderRadius: 10,
+    borderColor: "grey",
+    justifyContent: "center",
+  },
   button: {
     alignItems: "center",
 
     flexDirection: "row",
-    height: 30,
+    height: 40,
     width: 70,
     borderWidth: 1,
     borderRadius: 10,
@@ -148,20 +171,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     //alignItems:'center',
     alignSelf: "center",
-    justifyContent: "center",
-    width: "70%",
-    borderRadius: 10,
+    
+    width: "80%",
+    //borderRadius: 10,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: "#ff751a",
+    borderColor: "grey",
     justifyContent: "center",
   },
   border: {
     marginTop: 60,
-    width: 300,
-    height: 350,
+    width: '90%',
+    height: '50%',
     //border:20,
     borderWidth: 1,
-    borderColor: "#ff751a",
+    borderColor: "gray",
   },
 });

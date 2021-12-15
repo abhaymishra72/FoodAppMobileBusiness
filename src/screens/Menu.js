@@ -45,15 +45,17 @@ const AddNewMenu = ({ navigation }) => {
           <Picker
           
             selectedValue={Enable}
-            style={styles.pickerBorder}
-            mode={"dialog"}
+            style={styles.picker}
+            mode={"dropdown"}
             onValueChange={(itemValue) => setEnable(itemValue)}
           >
             <Picker.Item  label="food category" value="foodcategory" />
             <Picker.Item label="veg" value="veg" />
             <Picker.Item label="nonveg " value="nonveg" />
           </Picker>
+         
         </View>
+        <View style={{marginLeft:-10}} ><Text style={styles.addcategory}>+</Text></View>
         
         <View style={styles.inputView}>
           <TextInput
@@ -127,6 +129,18 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 25,
   },
+  addcategory:{
+    borderWidth: 1,
+    borderColor: 'black',
+    alignSelf: "center",
+    alignItems:'center',
+    width:20,
+    marginLeft:250,
+    paddingLeft:6,
+    marginTop:-25,
+    borderRadius: 3,
+    borderColor: 'gray',
+  },
   inputView: {
     // width: "55%",
     height: 60,
@@ -134,16 +148,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 5,
     justifyContent: "center",
+    
+  },
+  picker:{
+   // alignContent:'center',
+    alignItems:'center',
+    justifyContent: "center",
+    
   },
   pickerBorder: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: 'gray',
     alignSelf: "center",
-    height: 40,
+    height: 30,
     padding: 0,
-   width:'80%',
-   
-    
+   width:'70%',
+  
+    marginLeft:-32,
     borderRadius: 10,
     borderColor: "grey",
     justifyContent: "center",

@@ -1,22 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  
-} from "react-native";
-import {
-    font,
-    colors,
-    images,
-    customStyles,
-    ionicons,
-    icons,
-  } from "../constants/styles";
+import {Text, View, SafeAreaView, TextInput,  StyleSheet, TouchableOpacity,ScrollView} from "react-native";
+import {font,colors,images,customStyles,ionicons, icons, } from "../constants/styles";
 import { Picker } from "@react-native-picker/picker";
+import ImagePicker from 'react-native-image-crop-picker';
 
 const AddNewMenu = ({ navigation }) => {
   const [Enable, setEnable] = useState("foodcategory");
@@ -25,187 +11,141 @@ const AddNewMenu = ({ navigation }) => {
   const [details, setDetails] = useState("");
   const [price, setPrice] = useState("");
 
+  const foodimages = () => {
+    console.log('Choose Photo');
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+    });
+}
+
+ 
+
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <Text style={styles.mainText}>Add/ Edit Food Screen</Text>
-      </View>
-      <View style={styles.border}>
-          
-        <View style={styles.inputView}>
+    <SafeAreaView style={customStyles.container}>
+       <ScrollView>
+     
+        <View
+          style={{
+            marginTop: "6%",
+          }}
+        >
+         
+
+          <Text style={customStyles.logoText}>Add Food Screen</Text>
+
+         <View style={{marginBottom:-8}}></View>
+          <Text style={customStyles.textInputName}>Food  Title:</Text>
+          {/* <View style={{marginTop:-20}}></View> */}
           <TextInput
-            style={styles.TextInput}
-            placeholder="Food 1 Title"
-            value={title}
-            onChangeText={(title) => setTitle(title)}
-            placeholderTextColor="#9b9b9b"
+            style={customStyles.textInputfoodadd}
+            underlineColorAndroid={colors.gray}
+            
           />
-        </View>
-        <View style={styles.pickerBorder}>
+
+
+          <Text style={customStyles.textInputName}>Food Category</Text>
+         <View style={customStyles.pickerBorder}>
+          
           <Picker
           
-            selectedValue={Enable}
-            style={styles.picker}
-            mode={"dropdown"}
-            onValueChange={(itemValue) => setEnable(itemValue)}
-          >
-            <Picker.Item  label="food category" value="foodcategory" />
-            <Picker.Item label="veg" value="veg" />
-            <Picker.Item label="nonveg " value="nonveg" />
-          </Picker>
+                  selectedValue={Enable}
+                 // style={customStyles.picker}
+                  mode={"dropdown"}
+                  onValueChange={(itemValue) => setEnable(itemValue)}
+                >
+                  <Picker.Item  label="food category" value="foodcategory" />
+                  <Picker.Item label="Chinese" value="chinese" />
+                  <Picker.Item label="south indian " value="southindian" />
+                </Picker>
+                </View>
+
+              <View style={customStyles.addcategory}><TouchableOpacity><Text style={{fontSize:20, borderRadius:1, borderColor:'gray'}} >+</Text></TouchableOpacity></View>
+              <View style={{marginTop:10}}></View>
+          <Text style={customStyles.textInputName}>Available Quantity</Text>
          
-        </View>
-        <View style={{marginLeft:-10}} ><Text style={styles.addcategory}>+</Text></View>
-        
-        <View style={styles.inputView}>
           <TextInput
-            style={styles.TextInput}
-            placeholder="Available Quantity"
-            placeholderTextColor="#9b9b9b"
+            style={customStyles.textInputfoodadd}
+            underlineColorAndroid={colors.gray}
+            keyboardType="number-pad"
             value={quantity}
             onChangeText={(quantity) => setQuantity(quantity)}
-          />
-        </View>
-        <View style={styles.inputView}>
+                    />
+
+         
+          <Text style={customStyles.textInputName}>Food Details</Text>
+          <View style={{marginTop:-15}}></View>
+         <ScrollView>
           <TextInput
-            style={styles.TextInput}
-            placeholder="Food 1 Details"
-            placeholderTextColor="#9b9b9b"
+            multiline={true}
+            numberOfLines={10}
+            style={customStyles.textArea1}
+            underlineColorAndroid={colors.gray}
             value={details}
             onChangeText={(details) => setDetails(details)}
+            
           />
-        </View>
-        <View style={styles.inputView}>
+</ScrollView>
+         
+          <Text style={customStyles.textInputName}>Price</Text>
+         
           <TextInput
-            style={styles.TextInput}
-            placeholder="Price"
-            placeholderTextColor="#9b9b9b"
+            style={customStyles.textInputfoodadd}
+            underlineColorAndroid={colors.gray}
+            secureTextEntry={true}
             value={price}
             onChangeText={(price) => setPrice(price)}
           />
-        </View>
+                   <View style={{alignItems:'center'}}><TouchableOpacity
+                   onPress={()=>foodimages()}>
+                   <Text style={{alignContent:'center', borderWidth:1,padding:5,borderRadius:8,backgroundColor:'#ebebeb',borderColor:'#ebebeb'}} >{ionicons.folder
+}  Upload Food Images</Text></TouchableOpacity></View>
+         <View>
+        <Text style={{ marginTop: 10, marginLeft:40 }}> Status: Saved </Text>
       </View>
-      <View>
-        <Text style={{ marginTop: 10 }}> Status: Saved </Text>
-      </View>
-
-      <View style={styles.buttonview}>
+         
+      <View style={customStyles.cancelbutton}>
         <TouchableOpacity
-          style={styles.button}
+          style={customStyles.cancel}
           onPress={() => navigation.navigate("Vendor")}
         >
+          
           <Text style={{ color: "white" }}>Cancel</Text>
         </TouchableOpacity>
+        </View>
+
+        <View style={customStyles.savebutton}>
+
         <TouchableOpacity
-          style={styles.button}
+          style={customStyles.save}
           onPress={() => navigation.navigate("ResetPassword")}
         >
           <Text style={{ color: "white" }}>Save</Text>
+          
         </TouchableOpacity>
+        </View>
+        <View style={customStyles.publishbutton}>
         <TouchableOpacity
-          style={styles.button}
+          style={customStyles.publish}
           onPress={() => navigation.navigate("Menu")}
         >
           <Text style={{ color: "white" }}>Publish</Text>
-        </TouchableOpacity>
-      </View>
+          </TouchableOpacity>
+
+         
+        </View>
+        </View>
+        </ScrollView>
     </SafeAreaView>
   );
+      
+
 };
 
 export default AddNewMenu;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-  },
 
-  mainText: {
-    marginTop: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    color: "black",
-    fontSize: 25,
-  },
-  addcategory:{
-    borderWidth: 1,
-    borderColor: 'black',
-    alignSelf: "center",
-    alignItems:'center',
-    width:20,
-    marginLeft:250,
-    paddingLeft:6,
-    marginTop:-25,
-    borderRadius: 3,
-    borderColor: 'gray',
-  },
-  inputView: {
-    // width: "55%",
-    height: 60,
-    marginBottom: 20,
-    borderRadius: 10,
-    marginBottom: 5,
-    justifyContent: "center",
-    
-  },
-  picker:{
-   // alignContent:'center',
-    alignItems:'center',
-    justifyContent: "center",
-    
-  },
-  pickerBorder: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    alignSelf: "center",
-    height: 30,
-    padding: 0,
-   width:'70%',
   
-    marginLeft:-32,
-    borderRadius: 10,
-    borderColor: "grey",
-    justifyContent: "center",
-  },
-  button: {
-    alignItems: "center",
-
-    flexDirection: "row",
-    height: 40,
-    width: 70,
-    borderWidth: 1,
-    borderRadius: 10,
-    justifyContent: "space-around",
-    marginRight: 20,
-    backgroundColor: "tomato",
-  },
-  buttonview: {
-    marginTop: 50,
-    flexDirection: "row",
-  },
-  TextInput: {
-    height: 40,
-
-    textAlign: "center",
-    marginTop: 20,
-    //alignItems:'center',
-    alignSelf: "center",
-    
-    width: "80%",
-    //borderRadius: 10,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "grey",
-    justifyContent: "center",
-  },
-  border: {
-    marginTop: 60,
-    width: '90%',
-    height: '50%',
-    //border:20,
-    borderWidth: 1,
-    borderColor: "gray",
-  },
-});

@@ -17,66 +17,60 @@ const deliveryMan = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView>
-      <View style={{ marginTop: 2, marginLeft: 2 }}>
+    <SafeAreaView style={styles.container}>
+      <View style={{ marginTop: "6%", marginLeft: 2 }}>
         <View>
           <Text style={styles.maintext}>Deliveryman Dashboard </Text>
         </View>
-        <View style={{ paddingTop: 10, margin: 10 }}>
+        <View style={{ paddingTop: 40, margin: 10 }}>
           <View
             style={{
               paddingTop: 0,
-              borderWidth: 1,
               borderRadius: 5,
               flexDirection: "row",
+              marginLeft: 6,
             }}
           >
-            <TextInput
-              style={{
-                height: 40,
-                fontSize: 15,
-                borderRadius: 5,
-                marginLeft: 10,
-              }}
-              placeholder="Order ID"
-            />
-            <TextInput
-              style={{
-                alignItems: "center",
-                height: 40,
-                fontSize: 15,
-                borderRadius: 5,
-                marginLeft: 170,
-              }}
-              placeholder="Status: In Transit"
-            />
+            <Text style={{ color: "black" }}>Order ID: </Text>
+            <Text style={{ marginLeft: 205, color: "black" }}>
+              Status: In Transit
+            </Text>
           </View>
         </View>
 
         <View
           style={{
-            marginTop: 5,
+            marginTop: 20,
             height: 50,
-            width: "95%",
-            alignItems: "center",
-            marginLeft: 10,
-            paddingTop: 0,
-            borderWidth: 1,
-            borderRadius: 5,
+            width: "93%",
             flexDirection: "row",
+            borderColor: "gray",
+            marginLeft: 16,
           }}
         >
-          <Text> From:Vendor details                           To: Customer details</Text>
+          <View
+            style={{
+              paddingTop: 20,
+              flexDirection: "row",
+              marginLeft: 0,
+              borderBottomWidth: 1,
+              borderColor: "gray",
+            }}
+          >
+            <Text style={{ color: "black" }}>From: Vendor Details </Text>
+            <Text style={{ marginLeft: 124, color: "black" }}>
+              To: Customer Details
+            </Text>
+          </View>
         </View>
         <View>
-          {/* <View style={{ borderWidth: 1, height: 160 }}> */}
           <View style={styles.centeredView}>
             <Modal
               animationType="fade"
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
+                // Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
             >
@@ -100,7 +94,7 @@ const deliveryMan = () => {
                   <View
                     style={{
                       borderWidth: 1,
-                      // borderColor:'',
+                      borderColor: "white",
                       height: 90,
                       // marginRight: 20,
                       marginLeft: -78,
@@ -121,7 +115,7 @@ const deliveryMan = () => {
                     </Text>
                   </View>
 
-                  <Pressable
+                  <TouchableOpacity
                     style={styles.buttonM}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
@@ -129,13 +123,12 @@ const deliveryMan = () => {
                       style={{
                         color: "white",
                         textAlign: "center",
-                        fontWeight: "bold",
                       }}
                     >
                       Accept
                     </Text>
-                  </Pressable>
-                  <Pressable
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.buttonM1}
                     onPress={() => setModalVisible(!modalVisible)}
                   >
@@ -145,65 +138,63 @@ const deliveryMan = () => {
                         marginBottom: -15,
                         marginTop: -10,
                         alignSelf: "center",
-                        fontWeight: "bold",
                       }}
                     >
                       Reject
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </View>
             </Modal>
-            <Pressable
-              style={[styles.button, styles.buttonOpen]}
+            <TouchableOpacity
+              style={[styles.buttonN, styles.buttonOpen]}
               onPress={() => setModalVisible(true)}
             >
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                Show New Delivery
-              </Text>
-            </Pressable>
+              <Text style={{ color: "white" }}>Show New Delivery</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
         <View
           style={{
-            marginTop: 20,
+            marginTop: -45,
             height: 250,
             width: "95%",
             alignItems: "center",
             marginLeft: 10,
             paddingTop: 0,
-            borderWidth: 1,
+            backgroundColor: "#ebebeb",
+            // borderWidth: 1,
             borderRadius: 5,
             flexDirection: "row",
           }}
         >
-          <Text>Map</Text>
+          <Text
+            style={{
+              fontSize: 35,
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: 160,
+            }}
+          >
+            Map
+          </Text>
         </View>
         <View style={styles.buttonview}>
           <TouchableOpacity style={styles.button}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              Call to Vendor
-            </Text>
+            <Text style={{ color: "white" }}>Call to Vendor</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              Call to Customer
-            </Text>
+            <Text style={{ color: "white" }}>Call to Customer</Text>
           </TouchableOpacity>
         </View>
         <View style={{ paddingTop: 10 }}>
           <View style={styles.buttonpd}>
             <TouchableOpacity style={styles.buttons}>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                Picked Up
-              </Text>
+              <Text style={{ color: "white" }}>Picked Up</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttons}>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                {" "}
-                Delivered
-              </Text>
+              <Text style={{ color: "white" }}> Delivered</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -214,24 +205,30 @@ const deliveryMan = () => {
 export default deliveryMan;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   maintext: {
-    fontSize: 35,
+    fontSize: 30,
     color: "black",
+    textAlign: "center",
+    marginTop: 10,
     // fontWeight: 'Bold'
   },
   button: {
     justifyContent: "center",
     alignItems: "center",
 
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 30,
 
-    width: 140,
+    width: "40%",
     height: 40,
     backgroundColor: "tomato",
   },
   buttonview: {
-    marginTop: 20,
+    marginTop: 40,
     marginLeft: 20,
     marginRight: 20,
     flexDirection: "row",
@@ -241,15 +238,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     fontWeight: "bold",
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 30,
-    width: 120,
+    width: "40%",
     height: 40,
     backgroundColor: "tomato",
   },
   buttonpd: {
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: 20,
+    marginRight: 20,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -277,24 +274,34 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   buttonM: {
-    borderWidth: 1,
-    borderRadius: 2,
+    // borderWidth: 1,
+    borderRadius: 30,
     padding: 12,
     width: 100,
-    marginLeft: 270,
+    marginLeft: 275,
     marginTop: -91,
     backgroundColor: "tomato",
-    
   },
   buttonM1: {
-    borderWidth: 1,
-    borderRadius: 2,
+    // borderWidth: 1,
+    borderRadius: 30,
     padding: 22,
     width: 100,
-    marginLeft: 320,
+    marginLeft: 325,
     marginRight: 50,
+    marginTop: 5,
 
     backgroundColor: "tomato",
   },
- 
+  buttonN: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: -45,
+    // borderWidth: 1,
+    borderRadius: 30,
+
+    width: "40%",
+    height: 40,
+    backgroundColor: "tomato",
+  },
 });

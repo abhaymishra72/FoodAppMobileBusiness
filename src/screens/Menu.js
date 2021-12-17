@@ -93,65 +93,7 @@ const AddNewMenu = ({ navigation }) => {
                 +
               </Text>
               <View>
-                <Modal
-                  style={customStyles.modal}
-                  isVisible={isModalVisible}
-                  transparent={true}
-                >
-                  
-                  <View>
-                    <View>
-                      <Text
-                        style={{
-                          color: "black",
-                          marginLeft: -20,
-                          marginTop: -270,
-                        }}
-                      >
-                       
-                        Add Category:
-                      </Text>
-                      <TextInput
-                        style={{
-                          borderBottomWidth: 1,
-                          marginLeft: -20,
-                          marginTop: 10,
-                          height: 40,
-                          color: "black",
-                        }}
-                      ></TextInput>
-                    </View>
-                    <TouchableOpacity
-                      onPress={toggleModal}
-                      style={{
-                        marginLeft: -100,
-                        justifyContent: "center",
-                        marginTop: -160,
-                        height: 40,
-                      }}
-                    >
-                      <Text style={customStyles.cancelbuttonaddcategoryText}>
-                        Cancel
-                      </Text>
-                    </TouchableOpacity>
-                    <View style={{ marginLeft: -84 }}>
-                      <TouchableOpacity
-                        style={{
-                          marginLeft: 190,
-                          marginTop: -40,
-                          height: 40,
-                          justifyContent: "center",
-                        }}
-                        onPress={toggleModal}
-                      >
-                        <Text style={customStyles.addcategorybuttontext}>
-                          
-                          Add Category
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </Modal>
+        
               </View>
             </TouchableOpacity>
           </View>

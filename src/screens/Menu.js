@@ -93,7 +93,59 @@ const AddNewMenu = ({ navigation }) => {
                 +
               </Text>
               <View>
-        
+                <Modal
+                  style={customStyles.modal}
+                  isVisible={isModalVisible}
+                  transparent={true}
+                >
+                  
+                  <View>
+                    <View>
+                      <Text
+                        style={{
+                          color: "black",
+                          marginLeft: 30,
+                          marginTop: -250,
+                        }}
+                      >
+                       
+                        Add Category:
+                      </Text>
+                      <TextInput
+                        style={{
+                          borderBottomWidth: 1,
+                          marginLeft: 30,
+                          marginTop: 8,
+                          height: 40,
+                          width:'80%',
+                          color: "black",
+                        }}
+                      ></TextInput>
+                    </View>
+                    <View style={customStyles.cancelbutton}>
+                    <TouchableOpacity
+                      onPress={toggleModal}
+                      style={customStyles.cancelbuttonaddcategoryText}
+                    >
+                      <Text style={{ color: "white", fontWeight: "bold",alignSelf:'center' }}>
+                        Cancel
+                      </Text>
+
+                    </TouchableOpacity>
+                    </View>
+                    <View style={customStyles.publishbutton}>
+                      <TouchableOpacity
+                        style={customStyles.addcategorybuttontext}
+                        onPress={toggleModal}
+                      >
+                        <Text style={{ color: "white", fontWeight: "bold" }}>
+                          
+                          Add Category
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Modal>
               </View>
             </TouchableOpacity>
           </View>

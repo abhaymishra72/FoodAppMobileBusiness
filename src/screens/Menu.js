@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Button,
-  Switch,
-} from "react-native";
+import { Text,  View,  SafeAreaView,  TextInput,  TouchableOpacity, ScrollView, Button,  Switch,} from "react-native";
 import {
   font,
   colors,
@@ -26,20 +16,124 @@ import { BASE_URL } from "../constants/config";
 
 const AddNewMenu = ({ navigation }) => {
   
+const [data, setData] = React.useState({
+    name: "",
+    foodcategory: "",
+    quantity: "",
+    details: "",
+    price: "",
+    published: "",
+    isNameEmpty:false,
+    isFoodCategoryEmpty: false,
+   isQuantityEmpty: false,
+    isDetailsEmpty: false,
+    isPriceEmpty: false,
+    isPublishedEmpty: false,
+
+   
+  });
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [foodcategory, setFoodCategory] = useState();
+  const [foodcategory, setFoodCategory] = useState("foodcategory");
+  const [published, setPublished] = useState(true);
 
-
-  const [isToggleEnabled, setIsToggleEnabled] = useState(false);
-
-  const toggleSwitch = () =>
-    setIsToggleEnabled((previousState) => !previousState);
+  const isPublished = () =>
+    setPublished((previousState) => !previousState);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
+  const textNameChange = (e) => {
+    if (e.length != 0) {
+      setData({
+        ...data,
+        name: e,
+        isNameEmpty:false,
+       });
+    } else {
+      setData({
+        ...data,
+        name: e,
+        isNameEmpty:true,
+      });
+    }
+  };
+  const foodcategorychange = (e) => {
+    if (e.length != 0) {
+      setData({
+        ...data,
+        foodcategory: e, 
+        isFoodCategoryEmpty:false       
+      });
+    } else {
+      setData({
+        ...data,
+        foodcategory: e,  
+        isFoodCategoryEmpty:true      
+      });
+    }
+  };
+  const quantitychange = (e) => {
+    if (e.length != 0) {
+      setData({
+        ...data,
+        quantity: e, 
+        isQuantityEmpty:false       
+      });
+    } else {
+      setData({
+        ...data,
+        quantity: e,  
+        isQuantityEmpty:true      
+      });
+    }
+  };
+  const detailschange = (e) => {
+    if (e.length !== 0) {
+      setData({
+        ...data,
+        details: e, 
+        isDetailsEmpty:false,       
+      });
+    } else {
+      setData({
+        ...data,
+        details: e,  
+        isDetailsEmpty:true      
+      });
+    }
+  };
+  const pricechange = (e) => {
+    if (e.length !== 0) {
+      setData({
+        ...data,
+        price: e,      
+        isPriceEmpty:false,  
+      });
+    } else {
+      setData({
+        ...data,
+        price: e,    
+        isPriceEmpty:true,     
+      });
+    }
+  };
+  // const isPublished = (e) => {
+  //   if (e.length !== 0) {
+  //     setData({
+  //       ...data,
+  //       price: e,      
+  //       isPublishedEmpty:false,  
+  //     });
+  //   } else {
+  //     setData({
+  //       ...data,
+  //       price: e,    
+  //       isPublishedEmpty:true,     
+  //     });
+  //   }
+  // };
   // const foodimages = () => {
   //   console.log("Choose Photo");
   //   ImagePicker.openPicker({
@@ -49,7 +143,88 @@ const AddNewMenu = ({ navigation }) => {
   //   });
   // };
   
-
+  
+  const onSave = async () => {
+    if (
+      data.name == "" &&
+     data.foodcategory == "" &&
+      data.quantity == "" &&
+      data.details == "" &&
+      data.price == "" &&
+      data.published == ""
+    ) {
+      setData({
+        ...data,
+        isNameEmpty:true,
+        isFoodCategoryEmpty: true,
+        isQuantityEmpty: true,
+        isDetailsEmpty: true,
+        isPriceEmpty: true,
+        isPublishedEmpty: true,
+    
+      });
+    } else if (data.name == "") {
+      setData({
+        ...data,
+        isNameEmpty: true,
+      });
+    } else if (data.foodcategory == "") {
+      setData({
+        ...data,
+        isFoodCategoryEmpty: true,
+      });
+    } else if (data.quantity == "") {
+      setData({
+        ...data,
+        isQuantityEmpty: true,
+      });
+    } else if (data.details == "") {
+      setData({
+        ...data,
+        isDetailsEmpty: true,
+      });
+    } else if (data.price == "") {
+      setData({
+        ...data,
+        isPriceEmpty: true,
+      });
+    } else if (data.published == "") {
+      setData({
+        ...data,
+        isPublishedEmpty: true,
+      });
+    } 
+    else {
+    try {
+      await axios
+        .post(`${BASE_URL}/food/food-add`, {
+          name: data.name,
+          foodcategory: data.foodcategory,
+          quantity: data.quantity,
+          details: data.details,
+          price: data.price,
+          published: data.published,
+        })
+        .then((response) => {
+          Alert.alert(response.data.message);
+          setData({
+            ...data,
+            name: "",
+            foodcategory: "",
+            quantity: "",
+            details: "",
+            price: "",
+            published: "",
+          });
+          navigation.navigate("Menu");
+        })
+        .catch((error) => Alert.alert(error.message));
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(data)
+  };
+}
   return (
     <SafeAreaView style={customStyles.container}>
       <ScrollView>
@@ -66,23 +241,33 @@ const AddNewMenu = ({ navigation }) => {
           <TextInput
             style={customStyles.textInputfoodadd}
             underlineColorAndroid={colors.gray}
-          //   value={data.title}
-          // onChangeText={(text) => textTitleChange(text)}
+            value={data.name}
+          onChangeText={(text) => textNameChange(text)}
             
           />
+ {data.isNameEmpty ? (
+            <Text style={{ marginLeft: 40, color: "red" ,width:350}}>
+              Name should not be empty
+            </Text>
+          ) : null}
 
           <Text style={customStyles.textInputName}>Food Category</Text>
           <View style={customStyles.pickerBorder}>
             <Picker
               selectedValue={foodcategory}
-              // style={customStyles.picker}
+              style={{marginTop:0}}
               mode={"dropdown"}
-              onValueChange={(foodcategory) => setFoodCategory(foodcategory)}
+              onValueChange={(itemValue) => setFoodCategory(itemValue)}
             >
-              <Picker.Item label="food category" value="foodcategory" />
+              <Picker.Item label="food category" value="food category" />
               <Picker.Item label="Chinese" value="chinese" />
-              <Picker.Item label="south indian " value="southindian" />
+              <Picker.Item label="south indian " value="south indian" />
             </Picker>
+            {/* {data.isFoodCategoryEmpty ? (
+            <Text style={{ marginLeft: 40, color: "red", }}>
+              Food Category should not be empty
+            </Text>
+          ) : null} */}
           </View>
 
           <View style={customStyles.addcategory}>
@@ -105,11 +290,11 @@ const AddNewMenu = ({ navigation }) => {
                         style={{
                           color: "black",
                           marginLeft: 30,
-                          marginTop: -250,
+                          marginTop: -220,
                         }}
                       >
                        
-                        Add Category:
+                        Category Name:
                       </Text>
                       <TextInput
                         style={{
@@ -150,17 +335,21 @@ const AddNewMenu = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ marginTop: 10 }}></View>
+          <View style={{ marginTop: 22 }}></View>
           <Text style={customStyles.textInputName}>Available Quantity</Text>
 
           <TextInput
             style={customStyles.textInputfoodadd}
             underlineColorAndroid={colors.gray}
            
-          //   value={data.quantity}
-          //  onChangeText={(text) => quantitychange(text)}
+            value={data.quantity}
+           onChangeText={(text) => quantitychange(text)}
           />
-
+{data.isQuantityEmpty ? (
+            <Text style={{ marginLeft: 40, color: "red" ,width:350}}>
+              Food Quantity should not be empty
+            </Text>
+          ) : null}
           <Text style={customStyles.textInputName}>Food Details</Text>
           <View style={{ marginTop: -15 }}></View>
           <ScrollView>
@@ -170,10 +359,14 @@ const AddNewMenu = ({ navigation }) => {
               
               style={customStyles.textArea1}
               underlineColorAndroid={colors.gray}
-              // value={data.details}
-              // onChangeText={(text) => detailschange(text)}
+              value={data.details}
+              onChangeText={(text) => detailschange(text)}
             />
-          </ScrollView>
+          </ScrollView>{data.isDetailsEmpty ? (
+            <Text style={{ marginLeft: 40, color: "red" ,width:350}}>
+              Food details should not be empty
+            </Text>
+          ) : null}
 
           <Text style={customStyles.textInputName}>Price</Text>
 
@@ -181,10 +374,15 @@ const AddNewMenu = ({ navigation }) => {
             style={customStyles.textInputfoodadd}
             underlineColorAndroid={colors.gray}   
             keyboardType="number-pad"         
-            // value={data.price}
-            // onChangeText={(text) => pricechange(text)}
+            value={data.price}
+            onChangeText={(text) => pricechange(text)}
           />
-          <View style={{ alignItems: "center" }}>
+          {data.isPriceEmpty ? (
+            <Text style={{ marginLeft: 40, color: "red" ,width:350}}>
+              Food Price should not be empty
+            </Text>
+          ) : null}
+          {/* <View style={{ alignItems: "center" }}>
             <TouchableOpacity onPress={() => foodimages()}>
               <Text
                 style={{
@@ -199,7 +397,7 @@ const AddNewMenu = ({ navigation }) => {
                 {ionicons.folder} Upload Food Images
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <View>
             <Text style={{ marginTop: 10, marginLeft: 40 }}>
               Status: Saved
@@ -218,7 +416,7 @@ const AddNewMenu = ({ navigation }) => {
           <View style={customStyles.savebutton}>
             <TouchableOpacity
               style={customStyles.save}
-             // onPress={onSave}
+             onPress={onSave}
             >
               <Text style={{ color: "white", fontWeight: "bold" }}>Save</Text>
             </TouchableOpacity>
@@ -241,13 +439,14 @@ const AddNewMenu = ({ navigation }) => {
           Publish
         </Text>
             <Switch
-             style={{marginTop: -24,marginLeft:70 }}
+             style={{marginTop: -24,marginLeft:80 }}
               trackColor={{ false: "#767577", true: "#4ebf40" }}
-              thumbColor={isToggleEnabled ? "#4ebf40" : "#f4f3f4"}
+              thumbColor={published ? "#4ebf40" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isToggleEnabled}
+              onValueChange={isPublished}
+              value={published}
             />
+           
           </View>
           
         </View>

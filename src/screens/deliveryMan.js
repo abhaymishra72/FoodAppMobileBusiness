@@ -1,26 +1,28 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
-  StyleSheet,
-  TextInput,
   SafeAreaView,
   TouchableOpacity,
   Modal,
-  Alert,
-  Pressable,
+  Switch,
 } from "react-native";
-
+import { colors, font, images, icons, customStyles } from "../constants/styles";
 import { Picker } from "@react-native-picker/picker";
 
 const deliveryMan = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [Online, setOnline] = useState(true);
+
+  const isOnline = () => setOnline((previousState) => !previousState);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={customStyles.container}>
       <View style={{ marginTop: "6%", marginLeft: 2 }}>
         <View>
-          <Text style={styles.maintext}>Deliveryman Dashboard </Text>
+          <Text style={customStyles.textDeliveryManDashboard}>
+            Deliveryman Dashboard{" "}
+          </Text>
         </View>
         <View style={{ paddingTop: 40, margin: 10 }}>
           <View
@@ -52,7 +54,6 @@ const deliveryMan = () => {
             style={{
               paddingTop: 20,
               flexDirection: "row",
-              marginLeft: 0,
               borderBottomWidth: 1,
               borderColor: "gray",
             }}
@@ -64,18 +65,17 @@ const deliveryMan = () => {
           </View>
         </View>
         <View>
-          <View style={styles.centeredView}>
+          <View style={customStyles.popUpCenteredView}>
             <Modal
               animationType="fade"
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                // Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
             >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
+              <View style={customStyles.popUpCenteredView}>
+                <View style={customStyles.popUpModalView}>
                   <View
                     style={{
                       borderWidth: 1,
@@ -85,9 +85,7 @@ const deliveryMan = () => {
                       width: "150%",
                     }}
                   >
-                    <Picker
-                      style={{ marginTop: 5, backgroundColor: "#ebebeb" }}
-                    >
+                    <Picker style={customStyles.picker}>
                       <Picker.Item label="New Delivery" value="New Delivery" />
                     </Picker>
                   </View>
@@ -96,61 +94,62 @@ const deliveryMan = () => {
                       borderWidth: 1,
                       borderColor: "white",
                       height: 90,
-                      // marginRight: 20,
-                      marginLeft: -78,
-                      marginRight: 20,
                       marginTop: 25,
-                      width: "110%",
+                      width: "150%",
                     }}
                   >
                     <Text
                       style={{
                         height: 40,
                         fontSize: 15,
-
                         padding: 10,
                       }}
                     >
                       Food 1, Delivery Address
                     </Text>
                   </View>
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity
+                      style={customStyles.buttonAccept}
+                      onPress={() => setModalVisible(!modalVisible)}
+                    >
+                      <Text
+                        style={{
+                          color: "white",
 
-                  <TouchableOpacity
-                    style={styles.buttonM}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        textAlign: "center",
-                      }}
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Accept
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={customStyles.buttonReject}
+                      onPress={() => setModalVisible(!modalVisible)}
                     >
-                      Accept
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.buttonM1}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        marginBottom: -15,
-                        marginTop: -10,
-                        alignSelf: "center",
-                      }}
-                    >
-                      Reject
-                    </Text>
-                  </TouchableOpacity>
+                      <Text
+                        style={{
+                          color: "white",
+                          marginBottom: -15,
+                          marginTop: -10,
+                          alignSelf: "center",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Reject
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </Modal>
             <TouchableOpacity
-              style={[styles.buttonN, styles.buttonOpen]}
+              style={[customStyles.buttonShowNewDelivery]}
               onPress={() => setModalVisible(true)}
             >
-              <Text style={{ color: "white" }}>Show New Delivery</Text>
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Show New Delivery
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -164,7 +163,6 @@ const deliveryMan = () => {
             marginLeft: 10,
             paddingTop: 0,
             backgroundColor: "#ebebeb",
-            // borderWidth: 1,
             borderRadius: 5,
             flexDirection: "row",
           }}
@@ -180,128 +178,64 @@ const deliveryMan = () => {
             Map
           </Text>
         </View>
-        <View style={styles.buttonview}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={{ color: "white" }}>Call to Vendor</Text>
+        <View style={customStyles.buttonview}>
+          <TouchableOpacity style={customStyles.buttonCallToVendorCustomer}>
+            <Text style={{ color: "white", fontWeight: "bold" }}>
+              Call to Vendor
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={{ color: "white" }}>Call to Customer</Text>
+          <TouchableOpacity style={customStyles.buttonCallToVendorCustomer}>
+            <Text style={{ color: "white", fontWeight: "bold" }}>
+              Call to Customer
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{ paddingTop: 10 }}>
-          <View style={styles.buttonpd}>
-            <TouchableOpacity style={styles.buttons}>
-              <Text style={{ color: "white" }}>Picked Up</Text>
+          <View style={customStyles.buttonPd}>
+            <TouchableOpacity style={customStyles.buttonPickedDelivered}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Picked Up
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttons}>
-              <Text style={{ color: "white" }}> Delivered</Text>
+            <TouchableOpacity style={customStyles.buttonPickedDelivered}>
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                {" "}
+                Delivered
+              </Text>
             </TouchableOpacity>
           </View>
+        </View>
+        <View
+          style={{
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 20,
+          }}
+        >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 18,
+              textAlign: "center",
+              paddingTop: 9,
+              marginTop: -10,
+              marginLeft: -40,
+              fontWeight: "bold",
+            }}
+          >
+            Status: Online
+          </Text>
+          <Switch
+            style={{ marginTop: -24, marginLeft: 150 }}
+            trackColor={{ false: "#767577", true: "#4ebf40" }}
+            thumbColor={Online ? "#4ebf40" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={isOnline}
+            value={Online}
+          />
         </View>
       </View>
     </SafeAreaView>
   );
 };
 export default deliveryMan;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  maintext: {
-    fontSize: 30,
-    color: "black",
-    textAlign: "center",
-    marginTop: 10,
-    // fontWeight: 'Bold'
-  },
-  button: {
-    justifyContent: "center",
-    alignItems: "center",
-
-    // borderWidth: 1,
-    borderRadius: 30,
-
-    width: "40%",
-    height: 40,
-    backgroundColor: "tomato",
-  },
-  buttonview: {
-    marginTop: 40,
-    marginLeft: 20,
-    marginRight: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  buttons: {
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "bold",
-    // borderWidth: 1,
-    borderRadius: 30,
-    width: "40%",
-    height: 40,
-    backgroundColor: "tomato",
-  },
-  buttonpd: {
-    marginLeft: 20,
-    marginRight: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 80,
-    marginBottom: 80,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    padding: 90,
-    width: "100%",
-    height: 0,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
-  buttonM: {
-    // borderWidth: 1,
-    borderRadius: 30,
-    padding: 12,
-    width: 100,
-    marginLeft: 275,
-    marginTop: -91,
-    backgroundColor: "tomato",
-  },
-  buttonM1: {
-    // borderWidth: 1,
-    borderRadius: 30,
-    padding: 22,
-    width: 100,
-    marginLeft: 325,
-    marginRight: 50,
-    marginTop: 5,
-
-    backgroundColor: "tomato",
-  },
-  buttonN: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: -45,
-    // borderWidth: 1,
-    borderRadius: 30,
-
-    width: "40%",
-    height: 40,
-    backgroundColor: "tomato",
-  },
-});

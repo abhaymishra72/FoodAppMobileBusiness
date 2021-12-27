@@ -1,42 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { Text,  View,  SafeAreaView,  TextInput,  TouchableOpacity, ScrollView, Button,  Switch,} from "react-native";
-import {
-  font,
-  colors,
-  images,
-  customStyles,
-  ionicons,
-  icons,
-} from "../constants/styles";
+import React, { useState,useEffect } from "react";
+import { Text,  View,  SafeAreaView,  TextInput,  TouchableOpacity, ScrollView, Switch,Alert} from "react-native";
+import {colors,customStyles,ionicons,icons} from "../constants/styles";
 import { Picker } from "@react-native-picker/picker";
 import ImagePicker from "react-native-image-crop-picker";
 import Modal from "react-native-modal";
 import axios from "axios";
 import { BASE_URL } from "../constants/config";
+import { Route } from "@react-navigation/native";
+import { getData, storeData } from "../component/asyncStorage";
 
-const AddNewMenu = ({ navigation }) => {
+let idData="";
+const AddNewMenu = ({route,navigation}) => {
+  //let {id}=route.params;
+  const[id,setId]=useState();
   
+  useEffect(
+    React.useCallback(() => {
+      
+      getData("user")
+        .then((response) => {
+         
+          idData=JSON.parse(response).id;
+          setId(JSON.parse(response).id);
+         
+     //  onSave(JSON.parse(response).id);
+          if (!response) {
+            console.log(" useFocusEffect response not received");
+          }
+        })
+        .catch((err) => {
+         
+          console.log(err);
+        });
+     addCategoryButton()
+    }, [])
+  );
+//console.log(idData,"myid");
+
 const [data, setData] = React.useState({
+  // id:"",
     name: "",
     foodcategory: "",
     quantity: "",
     details: "",
     price: "",
-    published: "",
-    isNameEmpty:false,
-    isFoodCategoryEmpty: false,
-   isQuantityEmpty: false,
-    isDetailsEmpty: false,
-    isPriceEmpty: false,
-    isPublishedEmpty: false,
-
-   
+   published: "",
+  //  categoryName:"",
+  //   isNameEmpty:false,
+  //  isFoodCategoryEmpty: false,
+  //  isQuantityEmpty: false,
+  //   isDetailsEmpty: false,
+  //   isPriceEmpty: false,
+   isPublished: false, 
+  //   iscategoryNameEmpty:"false"  
   });
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [foodcategory, setFoodCategory] = useState("foodcategory");
-  const [published, setPublished] = useState(true);
-
+  const [published, setPublished] = useState(initialValue);
+//const[addnewcategory, setAddNewCategory]=useState('');
   const isPublished = () =>
     setPublished((previousState) => !previousState);
 
@@ -44,6 +66,9 @@ const [data, setData] = React.useState({
     setModalVisible(!isModalVisible);
   };
 
+
+
+  
   const textNameChange = (e) => {
     if (e.length != 0) {
       setData({
@@ -59,23 +84,9 @@ const [data, setData] = React.useState({
       });
     }
   };
-  const foodcategorychange = (e) => {
-    if (e.length != 0) {
-      setData({
-        ...data,
-        foodcategory: e, 
-        isFoodCategoryEmpty:false       
-      });
-    } else {
-      setData({
-        ...data,
-        foodcategory: e,  
-        isFoodCategoryEmpty:true      
-      });
-    }
-  };
+ 
   const quantitychange = (e) => {
-    if (e.length != 0) {
+    if (e.length !== 0) {
       setData({
         ...data,
         quantity: e, 
@@ -119,61 +130,108 @@ const [data, setData] = React.useState({
       });
     }
   };
-  // const isPublished = (e) => {
-  //   if (e.length !== 0) {
-  //     setData({
-  //       ...data,
-  //       price: e,      
-  //       isPublishedEmpty:false,  
-  //     });
-  //   } else {
-  //     setData({
-  //       ...data,
-  //       price: e,    
-  //       isPublishedEmpty:true,     
-  //     });
-  //   }
-  // };
-  // const foodimages = () => {
-  //   console.log("Choose Photo");
-  //   ImagePicker.openPicker({
-  //     multiple: true,
-  //   }).then((images) => {
-  //     console.log(images);
-  //   });
-  // };
-  
-  
-  const onSave = async () => {
-    if (
-      data.name == "" &&
-     data.foodcategory == "" &&
-      data.quantity == "" &&
-      data.details == "" &&
-      data.price == "" &&
-      data.published == ""
-    ) {
+
+
+  const textCategoryNameChange = (e) => {
+    if (e.length != 0) {
       setData({
         ...data,
-        isNameEmpty:true,
-        isFoodCategoryEmpty: true,
-        isQuantityEmpty: true,
-        isDetailsEmpty: true,
-        isPriceEmpty: true,
-        isPublishedEmpty: true,
-    
+        categoryName: e,
+        iscategoryNameEmpty:false,
+       });
+    } else {
+      setData({
+        ...data,
+        categoryName: e,
+        iscategoryNameEmpty:true,
+      });
+    }
+  };
+  const foodimages = async () => {
+    console.log("Choose Photo");
+    ImagePicker.openPicker({
+      multiple: true,
+    }).then((images) => {
+      console.log(images);
+    });
+
+    await axios
+    .post(`${BASE_URL}/files/uploadFile`, {
+     
+    })
+  };
+  
+  // const onCancel=()=>{
+
+  // }
+  const addCategoryButton = async () => {
+    if (
+      data.categoryName == "" 
+         ) {
+      setData({
+        ...data,
+        iscategoryNameEmpty: true,
+        
       });
     } else if (data.name == "") {
       setData({
         ...data,
         isNameEmpty: true,
       });
-    } else if (data.foodcategory == "") {
+    } 
+    else {
+      try {
+        await axios
+          .post(`${BASE_URL}/category/newCategory}`)
+          .then((response) => {
+            console.log(response.data);
+              Alert.alert(response.data.message);
+            setData({
+              ...data,
+             // categoryName: "",
+              
+            });
+            navigation.navigate("Menu");
+          })
+          .catch((error) => Alert.alert(error.message));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onSave = async (id) => {
+    if (
+     // id="" &&
+      data.name == "" &&
+      foodcategory == "" &&
+      data.quantity == "" &&
+      data.details == "" &&
+      data.price == "" 
+     // data.published == ""
+      
+    ) {
+      setData({
+        
+        ...data,
+        // id,
+        isNameEmpty:true,
+       // isFoodCategoryEmpty: true,
+        isQuantityEmpty: true,
+        isDetailsEmpty: true,
+        isPriceEmpty: true,
+        //isPublishedEmpty: true,
+    
+      });
+      
+    } else if (data.name == "") {
       setData({
         ...data,
-        isFoodCategoryEmpty: true,
+        isNameEmpty: true,
       });
-    } else if (data.quantity == "") {
+    } 
+   
+     else if (data.quantity == "") {
       setData({
         ...data,
         isQuantityEmpty: true,
@@ -188,41 +246,41 @@ const [data, setData] = React.useState({
         ...data,
         isPriceEmpty: true,
       });
-    } else if (data.published == "") {
-      setData({
-        ...data,
-        isPublishedEmpty: true,
-      });
     } 
+   
     else {
+      console.log("line 201", data)
     try {
       await axios
-        .post(`${BASE_URL}/food/food-add`, {
+        .post(`${BASE_URL}/food/foodAdd`, {
+          restaurantId: idData ,
           name: data.name,
-          foodcategory: data.foodcategory,
+          CategoryName: setFoodCategory,
           quantity: data.quantity,
           details: data.details,
           price: data.price,
-          published: data.published,
+         published:setPublished,
         })
         .then((response) => {
           Alert.alert(response.data.message);
           setData({
             ...data,
+          restaurantId:"",
             name: "",
-            foodcategory: "",
+          foodcategory: "",
             quantity: "",
             details: "",
             price: "",
-            published: "",
+           published: "",
           });
+         
           navigation.navigate("Menu");
         })
         .catch((error) => Alert.alert(error.message));
     } catch (error) {
       console.log(error);
     }
-    console.log(data)
+    
   };
 }
   return (
@@ -233,7 +291,8 @@ const [data, setData] = React.useState({
             marginTop: "6%",
           }}
         >
-          <Text style={customStyles.logoText}>Add Food Screen</Text>
+               <Text style={customStyles.logoText}>Add Food Screen</Text>
+               
 
           <View style={{ marginBottom: -8 }}></View>
           <Text style={customStyles.textInputName}>Food Title:</Text>
@@ -242,32 +301,29 @@ const [data, setData] = React.useState({
             style={customStyles.textInputfoodadd}
             underlineColorAndroid={colors.gray}
             value={data.name}
-          onChangeText={(text) => textNameChange(text)}
+            onChangeText={(text) => textNameChange(text)}
             
           />
- {data.isNameEmpty ? (
+            {data.isNameEmpty ? (
             <Text style={{ marginLeft: 40, color: "red" ,width:350}}>
-              Name should not be empty
+              Food Title should not be empty
             </Text>
           ) : null}
 
           <Text style={customStyles.textInputName}>Food Category</Text>
           <View style={customStyles.pickerBorder}>
             <Picker
+
               selectedValue={foodcategory}
               style={{marginTop:0}}
               mode={"dropdown"}
-              onValueChange={(itemValue) => setFoodCategory(itemValue)}
+              onValueChange={(foodcategory) => setFoodCategory(foodcategory)}
             >
               <Picker.Item label="food category" value="food category" />
               <Picker.Item label="Chinese" value="chinese" />
               <Picker.Item label="south indian " value="south indian" />
             </Picker>
-            {/* {data.isFoodCategoryEmpty ? (
-            <Text style={{ marginLeft: 40, color: "red", }}>
-              Food Category should not be empty
-            </Text>
-          ) : null} */}
+            
           </View>
 
           <View style={customStyles.addcategory}>
@@ -305,7 +361,11 @@ const [data, setData] = React.useState({
                           width:'80%',
                           color: "black",
                         }}
-                      ></TextInput>
+                        value={data.categoryName}
+                        onChangeText={(text)=>textCategoryNameChange(text)}
+                      >
+                        
+                      </TextInput>
                     </View>
                     <View style={customStyles.cancelbutton}>
                     <TouchableOpacity
@@ -321,7 +381,7 @@ const [data, setData] = React.useState({
                     <View style={customStyles.publishbutton}>
                       <TouchableOpacity
                         style={customStyles.addcategorybuttontext}
-                        onPress={toggleModal}
+                        onPress={addCategoryButton}
                       >
                         <Text style={{ color: "white", fontWeight: "bold" }}>
                           
@@ -341,7 +401,7 @@ const [data, setData] = React.useState({
           <TextInput
             style={customStyles.textInputfoodadd}
             underlineColorAndroid={colors.gray}
-           
+            keyboardType="number-pad"
             value={data.quantity}
            onChangeText={(text) => quantitychange(text)}
           />
@@ -382,7 +442,7 @@ const [data, setData] = React.useState({
               Food Price should not be empty
             </Text>
           ) : null}
-          {/* <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center" }}>
             <TouchableOpacity onPress={() => foodimages()}>
               <Text
                 style={{
@@ -397,7 +457,7 @@ const [data, setData] = React.useState({
                 {ionicons.folder} Upload Food Images
               </Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
           <View>
             <Text style={{ marginTop: 10, marginLeft: 40 }}>
               Status: Saved
@@ -428,13 +488,7 @@ const [data, setData] = React.useState({
               marginTop: 10,
             }}
           ><Text
-          style={{
-            textAlign: "center",
-            paddingTop:9,
-            marginTop: -10,
-            marginLeft: -20,
-            fontWeight: "bold",
-          }}
+          style={{ textAlign:"center",paddingTop:9,marginTop: -10,marginLeft: -20,fontWeight: "bold"}}
         >
           Publish
         </Text>

@@ -1,136 +1,103 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
   SafeAreaView,
-  TouchableOpacity,
-  Modal,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { colors, font, images, icons, customStyles } from "../constants/styles";
-const deliveryHistory = () =>{
-    return (
-       
-        <SafeAreaView style={Styles.container}>
-           
-            <View >
-                <Text style={Styles.textDeliveryHistory}>
-                    Delivery History
-                </Text>
-            </View>
-            
-            <ScrollView styles={{paddingTop:100}}>
-                
+import { BASE_URL } from "../constants/config";
+import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
+import { getData, storeData } from "../component/asyncStorage";
+
+const deliveryHistory = () => {
+  const [data, setData] = useState([]);
+
+  const [id, setId] = useState("61b83d14e6465f27c8d72d2c");
+  let IdData = "";
+  useFocusEffect(
+    React.useCallback(() => {
+      getData("user").then((response) => {
+        console.log("res", response);
+
+        IdData = JSON.parse(response).id;
+
+        if (!response) {
+          console.log(" useFocusEffect response not received");
+        }
+      });
+      //  console.log(" my id", id)
+      //     // console.log("inside Use", BASE_URL);
+
+      try {
+        axios
+          .get(`${BASE_URL}/foodOrder/getfoodOrderRequest/${id}`)
+
+          .then((response) => {
+            console.log(response.data);
+
+            if (response.data) {
+              setData(response.data);
+            }
+          })
+          .catch((error) => console.log("error---", error.message));
+      } catch (error) {
+        console.log(error.message);
+      }
+    }, [])
+  );
+  return (
+    <SafeAreaView style={Styles.container}>
+      <View>
+        <Text style={Styles.textDeliveryHistory}>Delivery History</Text>
+      </View>
+      <ScrollView>
+        <View>
+          {/* <Text>{JSON.stringify(data)}</Text> */}
+
+          {data.map((item, index) => (
             <View style={Styles.delivery}>
-                <Text style={{ fontSize:20,  paddingBottom:25}}>Delivery 1, Date/Time, DeliveryAddress</Text>
+              {/* // <TouchableOpacity key={item.Id}> */}
+              <Text style={{ fontSize: 20 }}>
+                Status - {item.deliveryStatus}
+              </Text>
+              <Text style={{ fontSize: 20 }}>Price - {item.totalAmount}</Text>
+              <Text style={{ fontSize: 20 }}>
+                Address - {item.deliveryAddress}
+              </Text>
+              {/* // </TouchableOpacity>
+               */}
             </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 2, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}> 
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 3, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 4, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 5, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 6, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}> 
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 7, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 8, Date/Time, DeliveryAddress</Text>
-            </View><View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 9, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 10, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}> 
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 11, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 12, Date/Time, DeliveryAddress</Text>
-            </View><View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 13, Date/Time, DeliveryAddress</Text>
-            </View>
-            <View style={Styles.delivery}>
-                <Text style={{ fontSize:20, paddingBottom:25}}>Delivery 14, Date/Time, DeliveryAddress</Text>
-            </View>
-            
-               </ScrollView>
-             
-            </SafeAreaView>
-         
-        
-    )
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 export default deliveryHistory;
 const Styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        backgroundColor: colors.white,
-      },
-    
-  textDeliveryHistory:{
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+
+  textDeliveryHistory: {
     fontSize: 30,
     color: "black",
     textAlign: "center",
-    marginTop: 20,
-    marginBottom:25
+    marginTop: 25,
+    paddingBottom: 20,
   },
-  delivery:{
-      marginTop:40,
-      marginBottom:-30,
-    //   borderWidth:1,
-    //   borderColor:'white',
-    borderBottomWidth:2,
-    marginLeft:15,
-    marginRight:15,
-      height:70,
-      justifyContent:"center",
+  delivery: {
+    flex: 1,
+    marginBottom: 0,
+    borderBottomWidth: 1,
+    paddingTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
    
-
   },
-  delivery2:{
-    // marginTop:,
-    // borderWidth:1,
-
-    // borderColor:'white',
-    borderBottomWidth:2,
-    marginLeft:12,
-    marginRight:30,
-    height:50,
-    justifyContent:"center"
-
-},
-delivery3:{
-    // marginTop:40,
-    // borderWidth:1,
-    // borderColor:'white',
-    borderBottomWidth:2,
-    marginLeft:12,
-    marginRight:30,
-    height:50,
-    justifyContent:"center"
-
-},
-delivery4:{
-    // marginTop:40,
-    // borderWidth:1,
-    // borderColor:'white',
-    borderBottomWidth:2,
-    marginLeft:12,
-    marginRight:30,
-    height:50,
-    justifyContent:"center"
-
-},
 });
-
-

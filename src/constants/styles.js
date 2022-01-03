@@ -18,6 +18,9 @@ export const colors = {
   tomatoColor: "#E74C3C",
   cyan: "#59b2ab",
   yellow: "#febe29",
+  green: "#4ebf40",
+  red: "#FF0000",
+  gray: "#ebebeb" 
 };
 
 export const font = {
@@ -303,4 +306,123 @@ export const customStyles = {
     flexDirection: "column",
     marginLeft: "30%",
   },
+  
+  // DeliveryMan Dashboard Styles
+  textDeliveryManDashboard: {
+    fontSize: 30,
+    color: "black",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  buttonCallToVendorCustomer: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    width: "40%",
+    height: 40,
+    backgroundColor:colors.tomatoColor,
+    
+  },
+  buttonview: {
+    marginTop: 40,
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection:'row',
+    justifyContent: "space-between",
+    
+  },
+  buttonPickedDelivered: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    width: "40%",
+    height: 40,
+    backgroundColor:colors.tomatoColor,
+  },
+  buttonPd: {
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  popUpCenteredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 90,
+    marginBottom: 90,
+  },
+  popUpModalView: {
+    marginTop: 40,
+    backgroundColor: colors.white,
+    padding: 90,
+    width: "100%",
+    paddingBottom: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  picker:{
+    marginTop: 5, backgroundColor:colors.gray
+ },
+  buttonAccept: {
+    borderRadius: 30,
+    padding: 12,
+    width: "50%",
+    height: 45,
+    marginTop: 18,
+    marginLeft: 35,
+    backgroundColor: colors.green,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+    buttonReject: {
+    borderRadius: 30,
+    padding: 22,
+    width: "50%",
+    height: 40,
+    marginLeft: 40,
+    marginRight: 40,
+    marginTop: 20,
+    backgroundColor:colors.tomatoColor,
+  },
+  buttonShowNewDelivery: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: -45,
+    borderRadius: 30,
+    width: "40%",
+    height: 40,
+    backgroundColor: colors.tomatoColor,
+  },
+
+
+// myOrders and customerOrderTracking screen styles
+
+imageLogo: {
+  height: "28%",
+  width: "35%",
+  alignSelf: "flex-end",
+  borderRadius: 180,
+  marginTop: 30,
+},
+myText: {
+  fontSize: font.bold,
+  color: "black",
+  alignSelf: "flex-start",
+  marginTop: -230,
+  marginLeft: 40,
+},
+orderDelivery: {
+  borderBottomWidth: 1,
+  marginLeft: 20,
+  marginRight: 20,
+},
 };

@@ -9,20 +9,26 @@ import {
 } from "react-native";
 import { colors, font, images, icons, customStyles } from "../constants/styles";
 import { Picker } from "@react-native-picker/picker";
+import { BASE_URL } from "../constants/config";
+import axios from "axios";
+// import { useFocusEffect } from "@react-navigation/native";
 
-const deliveryMan = () => {
+const deliveryMan = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [Online, setOnline] = useState(true);
 
   const isOnline = () => setOnline((previousState) => !previousState);
+
   return (
     <SafeAreaView style={customStyles.container}>
       <View style={{ marginTop: "6%", marginLeft: 2 }}>
         <View>
-          <Text style={customStyles.textDeliveryManDashboard}>
-            Deliveryman Dashboard{" "}
-          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("myOrder")}>
+            <Text style={customStyles.textDeliveryManDashboard}>
+              Deliveryman Dashboard
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={{ paddingTop: 40, margin: 10 }}>
           <View
@@ -112,6 +118,7 @@ const deliveryMan = () => {
                     <TouchableOpacity
                       style={customStyles.buttonAccept}
                       onPress={() => setModalVisible(!modalVisible)}
+                      // onPress={Accept}
                     >
                       <Text
                         style={{

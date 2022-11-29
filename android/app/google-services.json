@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "598851378474",
+    "project_id": "foodappmobilebusiness",
+    "storage_bucket": "foodappmobilebusiness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598851378474:android:2665e0117c77b4e4bf1253",
+        "android_client_info": {
+          "package_name": "com.inevitableinfotech.sanaatbusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598851378474-hev8jibh84olnb6d8aneosqiogevarp1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA15WBHPQHQHjb4TadyR9zDzPKstqamOX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598851378474-hev8jibh84olnb6d8aneosqiogevarp1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
